@@ -84,13 +84,25 @@ extern NSString *const kAppiraterReminderRequestDate;
  */
 #define APPIRATER_RATE_LATER			NSLocalizedStringFromTable(@"Remind me later", @"AppiraterLocalizable", nil)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// ARC on iOS 4 and 5
+//
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+#define ap_weak   weak
+#define __ap_weak __weak
+#else
+#define ap_weak   unsafe_unretained
+#define __ap_weak __unsafe_unretained
+#endif
+
 @interface Appirater : NSObject <UIAlertViewDelegate> {
 
 	UIAlertView		*ratingAlert;
 }
 
 @property(nonatomic, strong) UIAlertView *ratingAlert;
-@property(nonatomic, weak) NSObject <AppiraterDelegate> *delegate;
+@property(nonatomic, ap_weak) NSObject <AppiraterDelegate> *delegate;
 
 /*
  Tells Appirater that the app has launched, and on devices that do NOT
